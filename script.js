@@ -276,32 +276,34 @@ document.querySelector(".gallery").addEventListener(
 //SLIDER BITDI//
 
 /*REFRESH NONE */
-document.querySelector(".form").addEventListener("submit", function (e) {
+document.querySelector(".premium-form").addEventListener("submit", function (e) {
   e.preventDefault();
+  alert("Mesajınız göndərildi!");
 });
-/*BRAND*/
-const devName = document.querySelector(".dev-name");
-const devText = document.querySelector(".dev-text");
 
-const brandObserver = new IntersectionObserver(
+/* CONTACT SECTION ANIMATION */
+const contactLogo = document.querySelector(".contact-logo-box");
+const contactForm = document.querySelector(".contact-form-box");
+const lightBeams = document.querySelectorAll(".light-beam");
+
+const contactObserver = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        devName.style.animation = "none";
-        devText.style.animation = "none";
-        devName.style.opacity = "0";
-        devText.style.opacity = "0";
+        contactLogo.style.animation = "fadeInDown 1s ease forwards";
+        contactForm.style.opacity = "1";
+        contactForm.style.transform = "translateY(0)";
+        contactForm.style.transition = "all 1s ease 0.3s";
 
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            devText.style.animation = "fadeInSlow 2s ease forwards";
-            devName.style.animation = "luxuryGlow 3s ease 0.5s forwards";
-          });
+        lightBeams.forEach(beam => {
+          beam.style.opacity = "0.5";
         });
       }
     });
   },
-  { threshold: 0.3 },
+  { threshold: 0.2 }
 );
 
-brandObserver.observe(document.querySelector(".elaqe"));
+contactForm.style.opacity = "0";
+contactForm.style.transform = "translateY(50px)";
+contactObserver.observe(document.querySelector(".elaqe"));
