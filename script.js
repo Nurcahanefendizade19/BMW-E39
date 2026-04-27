@@ -1,3 +1,5 @@
+/*alert("Salam, bu sayt BMW E39 haqqında məlumat vermək üçün hazırlanmışdır. Əgər hər hansı bir sualınız yaranarsa, e-mail bölməsindən mənimlə əlaqə saxlaya bilərsiniz. Zövq alın!");*/
+
 window.addEventListener("scroll", () => {
   const nav = document.querySelector(".nav");
   if (window.scrollY > 60) {
