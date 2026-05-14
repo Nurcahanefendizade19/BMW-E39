@@ -18,9 +18,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
+   <link
       href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Dancing+Script:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Iosevka+Charon+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CU+Guides&family=Playwrite+NZ+Basic+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
@@ -34,22 +32,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
+
+
+
     <link rel="stylesheet" href="./output.css" />
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
@@ -61,8 +46,21 @@
     <main>
       <!-- NAV -->
       <div class="nav">
-        <h2 class="logo text-3xl font-bold">BMW <span class="m">M</span>5</h2>
-        <ul class="ul">
+        <div
+          class="nav-header"
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          "
+        >
+          <h2 class="logo text-3xl font-bold">BMW <span class="m">M</span>5</h2>
+          <div class="hamburger" id="hamburger">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </div>
+        <ul class="ul" id="nav-ul">
           <li>
             <a
               style="list-style: none; color: #a0a0a0; text-decoration: none"
@@ -89,7 +87,7 @@
           </li>
         </ul>
       </div>
-<div class="nav-overlay" id="nav-overlay"></div>
+      <div class="nav-overlay" id="nav-overlay"></div>
 
       <!-- HERO -->
       <div class="hero">
@@ -127,15 +125,21 @@
         <!--NUMBS-->
         <div class="numbs">
           <div class="num1">
-            <h1 class="text-3xl">394 <sup style="color: #1c69d4; font-size: 17px">HP</sup></h1>
+            <h1 class="text-3xl">
+              394 <sup style="color: #1c69d4; font-size: 17px">HP</sup>
+            </h1>
             <h6 text-3xl>562 VB GÜCÜ</h6>
           </div>
           <div class="num1">
-            <h1 class="text-3xl">4.9 <sup style="color: #1c69d4; font-size: 17px">S</sup></h1>
+            <h1 class="text-3xl">
+              4.9 <sup style="color: #1c69d4; font-size: 17px">S</sup>
+            </h1>
             <h6>0-100 KM/S</h6>
           </div>
           <div class="num1">
-            <h1 class="text-3xl">250 <sup style="color: #1c69d4; font-size: 17px">+</sup></h1>
+            <h1 class="text-3xl">
+              250 <sup style="color: #1c69d4; font-size: 17px">+</sup>
+            </h1>
             <h6>MAX SÜRƏT</h6>
           </div>
         </div>
@@ -168,7 +172,10 @@
         <div class="cards1">
           <div class="card1">
             <div class="card-icon">
-              <i style="color: #1c69d4" class="fa-regular fa-clock w-13 h-14 flex items-center justify-center"></i>
+              <i
+                style="color: #1c69d4"
+                class="fa-regular fa-clock w-13 h-14 flex items-center justify-center"
+              ></i>
             </div>
             <h1 class="tit">4.9 <sup style="color: #1c69d4">s</sup></h1>
             <h5 style="color: #a0a0a0">SÜRƏTLƏNMƏ · 0-100 KM/S</h5>
@@ -181,19 +188,25 @@
 
           <div class="card1">
             <div class="card-icon">
-              <i style="color: #1c69d4" class="fa-regular fa-clock w-13 h-14 flex items-center justify-center"></i>
+              <i
+                style="color: #1c69d4"
+                class="fa-regular fa-clock w-13 h-14 flex items-center justify-center"
+              ></i>
             </div>
             <h1 class="tit">394 <sup style="color: #1c69d4">HP</sup></h1>
-            <h5 style="color: #a0a0a0">MAKSIMUM GÜC · 6Ş600 D/DƏQ</h5>
+            <h5 style="color: #a0a0a0">MAKSIMUM GÜC · 6.600 D/DƏQ</h5>
             <h5 style="font-weight: 50; color: #a0a0a0">
-              5ş0 litrlik S62 mühərriki 500 Nm burma momenti ilə <br />
-              sürücüyə istənilən sürətdə ilham verir. <br><br>
+              5.0 litrlik S62 mühərriki 500 Nm burma momenti ilə <br />
+              sürücüyə istənilən sürətdə ilham verir. <br /><br />
             </h5>
           </div>
 
           <div class="card1">
             <div class="card-icon">
-              <i style="color: #1c69d4" class="fa-regular fa-clock w-13 h-14 flex items-center justify-center"></i>
+              <i
+                style="color: #1c69d4"
+                class="fa-regular fa-clock w-13 h-14 flex items-center justify-center"
+              ></i>
             </div>
             <h1 class="tit">250 <sup style="color: #1c69d4">+</sup></h1>
             <h5 style="color: #a0a0a0">MAKSIMUM SÜRƏT · KM/S</h5>
@@ -264,11 +277,12 @@
         </div>
       </div>
 
+      <!--POPUP-->
 
-
+      <!--POPUPEND-->
       <!--ADD-->
       <div id="qaleriya" class="qaleriya">
-        <div class="gallery">
+        <div class="gallery h-screen">
           <div class="stage" id="stage">
             <div class="slide sleft" data-i="0">
               <img src="video/download (18).jpg" alt="" />
@@ -281,7 +295,7 @@
             </div>
           </div>
 
-          <div class="info">
+          <div class="info " style="margin-bottom: 200px !important;">
             <div class="info-item" data-info="0">
               <div class="iicon">📍</div>
               <div class="ititle">Precision Engineered Performance</div>
@@ -355,12 +369,8 @@
           <div class="arrow arrow-first"></div>
           <div class="arrow arrow-second"></div>
         </div>
-      </div>  
-      
-      <div id="qaleriya" class="qaleriya"></div>
+      </div>
       <!--ƏLAQƏ-->
-
-      <!--BRAND-->
       <div id="elaqe" class="elaqe">
         <div class="dev-brand">
           <span class="dev-text">Developer by</span>
@@ -874,15 +884,33 @@
         </div>
 
         <div class="line-bottom"></div>
-     
       </footer>
-
-      <center><h6>Crafted by Əfəndizadə © 2026</h6></center>
-
       <!--FOOTER END-->
+      r>
+
+      
+    <center><h6>Crafted by Əfəndizadə © 2026</h6></center>
+    <!--ADD-->
+ <div id="game-popup" class="game-popup-overlay">
+  <div class="game-popup-box">
+    <p class="game-popup-title">🎮 Reklamımıza daxil olmaq istəyirsən?</p>
+    <p class="game-popup-sub">BMW E39 ilə sürücülük macərasına başla!</p>
+    <div class="game-popup-btns">
+      <button class="popup-btn-yes" id="popup-yes">HƏ</button>
+      <button class="popup-btn-no" id="popup-no">YOX</button>
+    </div>
+  </div>
+</div>
+
+    </main> 
+
+    <script src="script.js"></script>
+  </body>
+</html>
     </main>
 
     <script src="script.js"></script>
+    
   </body>
 </html>
 <!--FORM BITDI-->

@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VORTEX PRO — Gaming Mouse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    :root {
+      --bg: #050508;
+      --surface: #0d0d14;
+      --accent: #ff2d55;
+      --accent2: #00f0ff;
+      --gold: #ffd700;
+      --text: #e8e8f0;
+      --muted: #5a5a7a;
+      --glow-red: rgba(255,45,85,0.6);
+      --glow-cyan: rgba(0,240,255,0.5);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+  user-select: none;
+}
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    #cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform 0.08s ease, background 0.2s;
+      mix-blend-mode: normal;
+    }
+    #cursor-ring {
+      position: fixed;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--accent2);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.18s ease, width 0.2s, height 0.2s, border-color 0.2s;
+    }
+    body:has(.btn:hover) #cursor-ring,
+    body:has(.cta:hover) #cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--accent);
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.45;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0 6vw;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 70% 50%, rgba(0,240,255,0.06) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 30% 30%, rgba(255,45,85,0.08) 0%, transparent 60%),
+        linear-gradient(160deg, #050508 40%, #0a0a12 100%);
+      z-index: 0;
+    }
+
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,240,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      animation: gridShift 20s linear infinite;
+      z-index: 0;
+    }
+    @keyframes gridShift {
+      from { transform: perspective(600px) rotateX(15deg) translateY(0); }
+      to   { transform: perspective(600px) rotateX(15deg) translateY(60px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 52%;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,45,85,0.12);
+      border: 1px solid rgba(255,45,85,0.3);
+      border-radius: 2px;
+      padding: 6px 14px;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .badge-dot {
+      width: 6px; height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.4; transform: scale(1.4); }
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 9vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.4s forwards;
+    }
+    h1 span.accent { color: var(--accent); }
+    h1 span.thin   { color: var(--accent2); text-shadow: 0 0 30px var(--glow-cyan); }
+
+    .tagline {
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.6s forwards;
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 36px;
+      margin-bottom: 44px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.75s forwards;
+    }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem;
+      color: var(--accent2);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .stat-divider {
+      width: 1px;
+      background: rgba(255,255,255,0.08);
+      align-self: stretch;
+    }
+
+    .cta-row {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.9s forwards;
+    }
+    .btn {
+      position: relative;
+      display: inline-block;
+      padding: 14px 36px;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: none;
+      overflow: hidden;
+      transition: transform 0.15s ease;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 0 28px var(--glow-red);
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease;
+    }
+    .btn-primary:hover::after { transform: translateX(100%); }
+    .btn-primary:hover { box-shadow: 0 0 48px var(--glow-red); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--accent2);
+      border: 1px solid rgba(0,240,255,0.35);
+    }
+    .btn-ghost:hover {
+      background: rgba(0,240,255,0.07);
+      border-color: var(--accent2);
+      box-shadow: 0 0 20px rgba(0,240,255,0.2);
+    }
+
+    .price-tag {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      font-family: 'Bebas Neue', sans-serif;
+    }
+    .price-old { font-size: 1.1rem; color: var(--muted); text-decoration: line-through; }
+    .price-new { font-size: 2rem; color: var(--gold); }
+    .price-currency { font-size: 1rem; color: var(--gold); }
+
+    .hero-visual {
+      position: absolute;
+      right: 4vw;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: 44%;
+      max-width: 520px;
+      opacity: 0;
+      animation: fadeIn 1s 0.5s forwards;
+    }
+
+    .mouse-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(0,240,255,0.15);
+      animation: spin linear infinite;
+    }
+    .ring1 { width: 85%; height: 85%; animation-duration: 18s; }
+    .ring2 { width: 70%; height: 70%; animation-duration: 12s; animation-direction: reverse; border-color: rgba(255,45,85,0.12); }
+    .ring3 { width: 55%; height: 55%; animation-duration: 24s; border-color: rgba(0,240,255,0.08); }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .mouse-svg-wrap {
+      position: relative;
+      z-index: 3;
+      width: 56%;
+      filter: drop-shadow(0 0 40px rgba(0,240,255,0.25)) drop-shadow(0 0 80px rgba(255,45,85,0.15));
+      animation: floatMouse 3.5s ease-in-out infinite;
+    }
+    @keyframes floatMouse {
+      0%,100% { transform: translateY(0) rotate(-4deg); }
+      50%      { transform: translateY(-18px) rotate(-4deg); }
+    }
+
+    .mouse-svg-wrap svg {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .orb {
+      position: absolute;
+      width: 50%; height: 50%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,240,255,0.18) 0%, transparent 70%);
+      filter: blur(30px);
+      z-index: 1;
+      animation: orbPulse 4s ease-in-out infinite;
+    }
+    @keyframes orbPulse {
+      0%,100% { transform: scale(1); opacity: 0.6; }
+      50%      { transform: scale(1.3); opacity: 1; }
+    }
+
+    .corner {
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: rgba(0,240,255,0.4);
+      border-style: solid;
+    }
+    .corner-tl { top: 8%; left: 8%; border-width: 2px 0 0 2px; }
+    .corner-tr { top: 8%; right: 8%; border-width: 2px 2px 0 0; }
+    .corner-bl { bottom: 8%; left: 8%; border-width: 0 0 2px 2px; }
+    .corner-br { bottom: 8%; right: 8%; border-width: 0 2px 2px 0; }
+
+    .scanline {
+      position: absolute;
+      left: 10%; right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+      opacity: 0;
+      animation: scan 3s ease-in-out 2s infinite;
+    }
+    @keyframes scan {
+      0%   { top: 15%; opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.6; }
+      100% { top: 85%; opacity: 0; }
+    }
+
+    .features {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 0;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      background: rgba(255,255,255,0.015);
+      overflow: hidden;
+    }
+    .feature-item {
+      flex: 1;
+      padding: 36px 32px;
+      border-right: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .feature-item:last-child { border-right: none; }
+    .feature-item.visible {
+      animation: fadeUp 0.6s forwards;
+    }
+    .feature-item:hover {
+      background: rgba(255,255,255,0.03);
+    }
+    .feature-item::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .feature-item:hover::before { transform: scaleX(1); }
+
+    .feature-icon {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .feature-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .feature-desc {
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .specs-section {
+      padding: 80px 6vw;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      margin-bottom: 32px;
+    }
+
+    .spec-list { list-style: none; }
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .spec-item.visible { opacity: 1; transform: translateX(0); }
+    .spec-key {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .spec-val {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.2rem;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+    }
+
+    .dpi-bar-wrap {
+      margin-top: 28px;
+    }
+    .dpi-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .dpi-bar-track {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .dpi-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+      transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+      box-shadow: 0 0 10px var(--glow-cyan);
+    }
+
+    .rgb-swatches {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .swatch {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: none;
+      border: 2px solid transparent;
+      transition: transform 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .swatch:hover { transform: scale(1.25); }
+    .swatch.active { border-color: #fff; }
+    .swatch-red  { background: radial-gradient(circle at 35% 35%, #ff6680, #cc0022); box-shadow: 0 0 10px rgba(255,45,85,0.6); }
+    .swatch-cyan { background: radial-gradient(circle at 35% 35%, #80ffff, #00aacc); box-shadow: 0 0 10px rgba(0,240,255,0.6); }
+    .swatch-gold { background: radial-gradient(circle at 35% 35%, #ffe066, #cc9900); box-shadow: 0 0 10px rgba(255,215,0,0.6); }
+    .swatch-purple { background: radial-gradient(circle at 35% 35%, #cc88ff, #6600cc); box-shadow: 0 0 10px rgba(150,50,255,0.6); }
+    .swatch-white { background: radial-gradient(circle at 35% 35%, #fff, #aaa); box-shadow: 0 0 10px rgba(255,255,255,0.4); }
+
+    .cta-section {
+      position: relative;
+      overflow: hidden;
+      padding: 90px 6vw;
+      text-align: center;
+      z-index: 2;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 50%, rgba(255,45,85,0.08) 0%, transparent 70%),
+        linear-gradient(180deg, transparent, rgba(0,240,255,0.03));
+    }
+    .cta-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 0.95;
+      margin-bottom: 20px;
+    }
+    .cta-title em { color: var(--accent); font-style: normal; }
+    .cta-sub {
+      font-size: 0.9rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .cta-big-btn {
+      display: inline-block;
+      padding: 18px 60px;
+      background: transparent;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: none;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+    .cta-big-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: var(--accent);
+      transition: left 0.35s ease;
+      z-index: -1;
+    }
+    .cta-big-btn:hover { color: #fff; }
+    .cta-big-btn:hover::before { left: 0; }
+
+    footer {
+      position: relative;
+      z-index: 2;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding: 28px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo-footer {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+    }
+    footer p {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    #particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+
+    @media (max-width: 768px) {
+      .hero-content { max-width: 100%; }
+      .hero-visual { display: none; }
+      .features { flex-direction: column; }
+      .specs-section { grid-template-columns: 1fr; }
+      .stats-row { gap: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="particles"></canvas>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="grid-bg"></div>
+
+  <div class="hero-content">
+    <div class="badge"><span class="badge-dot"></span> Yeni Nəsil Gaming</div>
+    <h1>VORTEX<br><span class="accent">PRO</span> <span class="thin">X</span></h1>
+    <p class="tagline">Hər Klik. Hər Millisaniyə. Hər Qələbə.</p>
+
+    <div class="stats-row">
+      <div class="stat">
+        <span class="stat-num" data-target="36000">0</span>
+        <span class="stat-label">DPI</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-target="650">0</span>
+        <span class="stat-label">İPS</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-target="125">0</span>
+        <span class="stat-label">Saat Batareya</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-target="58">0</span>
+        <span class="stat-label">Qram</span>
+      </div>
+    </div>
+
+    <div class="cta-row">
+      <a href="#" class="btn btn-primary">İndi Al</a>
+      <a href="#" class="btn btn-ghost">Xüsusiyyətlər</a>
+      <div class="price-tag">
+        <span class="price-old">249₼</span>
+        <span class="price-currency">₼</span>
+        <span class="price-new">179</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="mouse-wrap">
+      <div class="ring ring1"></div>
+      <div class="ring ring2"></div>
+      <div class="ring ring3"></div>
+      <div class="orb"></div>
+      <div class="scanline"></div>
+      <div class="corner corner-tl"></div>
+      <div class="corner corner-tr"></div>
+      <div class="corner corner-bl"></div>
+      <div class="corner corner-br"></div>
+
+      <div class="mouse-svg-wrap">
+        <svg viewBox="0 0 220 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1a1a2e"/>
+              <stop offset="100%" stop-color="#0d0d18"/>
+            </linearGradient>
+            <linearGradient id="topGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff2d55" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#00f0ff" stop-opacity="0.9"/>
+            </linearGradient>
+            <linearGradient id="scrollGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ff2d55"/>
+              <stop offset="100%" stop-color="#00f0ff"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <path d="M30 110 Q30 60 110 50 Q190 60 190 110 L185 270 Q185 300 110 300 Q35 300 35 270 Z" fill="url(#bodyGrad)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+          <line x1="110" y1="50" x2="110" y2="170" stroke="rgba(0,240,255,0.2)" stroke-width="1"/>
+
+          <path d="M30 110 Q30 60 110 50 L110 170 L35 170 Z" fill="#141422" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <path d="M190 110 Q190 60 110 50 L110 170 L185 170 Z" fill="#101020" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+          <path d="M55 65 Q110 52 165 65" stroke="url(#topGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#glow)" class="rgb-stripe"/>
+
+          <rect x="97" y="80" width="26" height="52" rx="13" fill="#0a0a16" stroke="rgba(0,240,255,0.2)" stroke-width="1"/>
+          <rect x="101" y="84" width="18" height="44" rx="9" fill="url(#scrollGrad)" opacity="0.8" filter="url(#glow)"/>
+          <line x1="101" y1="100" x2="119" y2="100" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+          <line x1="101" y1="106" x2="119" y2="106" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+          <line x1="101" y1="112" x2="119" y2="112" stroke="rgba(0,0,0,0.4)" stroke-width="1.5"/>
+
+          <rect x="27" y="160" width="10" height="22" rx="4" fill="#1a1a30" stroke="rgba(0,240,255,0.3)" stroke-width="1"/>
+          <rect x="27" y="188" width="10" height="22" rx="4" fill="#1a1a30" stroke="rgba(0,240,255,0.3)" stroke-width="1"/>
+
+          <path d="M50 285 Q110 295 170 285" stroke="url(#topGrad)" stroke-width="2" stroke-linecap="round" opacity="0.6" filter="url(#glow)"/>
+
+          <circle cx="110" cy="240" r="14" fill="none" stroke="rgba(0,240,255,0.12)" stroke-width="1"/>
+          <circle cx="110" cy="240" r="8" fill="none" stroke="rgba(0,240,255,0.2)" stroke-width="1"/>
+          <circle cx="110" cy="240" r="3" fill="rgba(0,240,255,0.5)"/>
+
+          <path d="M50 190 Q110 185 170 190" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+          <path d="M48 210 Q110 205 172 210" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+          <path d="M48 230 Q110 225 172 230" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+
+          <path d="M65 75 Q110 58 155 75" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="feature-item">
+    <span class="feature-icon"><i class="fa-solid fa-bolt-lightning" style="color: rgb(110, 68, 231);"></i></span>
+    <div class="feature-title">Ultra-Sürətli</div>
+    <p class="feature-desc">8000Hz polling rate ilə hər 0.125ms bir cavab — rəqibinizdən həmişə bir addım önde.</p>
+  </div>
+  <div class="feature-item">
+    <span class="feature-icon"><i class="fa-solid fa-check" style="color: rgb(110, 68, 231);"></i></span>
+    <div class="feature-title">Dəqiq Sensor</div>
+    <p class="feature-desc">PixArt 3395 sensorla 36,000 DPI — pixel-perfect hərəkət, sıfır sürüşmə.</p>
+  </div>
+  <div class="feature-item">
+    <span class="feature-icon"><i class="fa-solid fa-battery-full" style="color: rgb(110, 68, 231);"></i></span>
+    <div class="feature-title">125 Saat</div>
+    <p class="feature-desc">Tək şarjla 125 saatlıq oyun. RGB ilə belə 80 saat. Heç vaxt dayanma.</p>
+  </div>
+  <div class="feature-item">
+    <span class="feature-icon"><i class="fa-brands fa-battle-net" style="color: rgb(110, 68, 231);"></i></span>
+    <div class="feature-title">58 Qram</div>
+    <p class="feature-desc">Yüngül honeycomb dizayn — yorulmadan saatlarla rahat oyun təcrübəsi.</p>
+  </div>
+</section>
+
+<section class="specs-section" id="specs">
+  <div>
+    <p class="section-label">Texniki Xüsusiyyətlər</p>
+    <h2 class="section-title">GÜCLÜ<br><span style="color:var(--accent)">Performans</span></h2>
+
+    <ul class="spec-list">
+      <li class="spec-item"><span class="spec-key">Sensor</span><span class="spec-val">PixArt 3395</span></li>
+      <li class="spec-item"><span class="spec-key">DPI Aralığı</span><span class="spec-val">100 — 36,000</span></li>
+      <li class="spec-item"><span class="spec-key">Polling Rate</span><span class="spec-val">8,000 Hz</span></li>
+      <li class="spec-item"><span class="spec-key">Sürət</span><span class="spec-val">650 İPS</span></li>
+      <li class="spec-item"><span class="spec-key">Kliklər</span><span class="spec-val">100M+</span></li>
+      <li class="spec-item"><span class="spec-key">Bağlantı</span><span class="spec-val">2.4GHz / USB-C</span></li>
+      <li class="spec-item"><span class="spec-key">Çəki</span><span class="spec-val">58g</span></li>
+    </ul>
+
+    <div class="dpi-bar-wrap" id="dpiBar">
+      <div class="dpi-bar-label">
+        <span>DPI Güc Göstəricisi</span>
+        <span style="color:var(--accent2)">36,000</span>
+      </div>
+      <div class="dpi-bar-track">
+        <div class="dpi-bar-fill" id="dpiFill"></div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <p class="section-label" style="margin-top:0">RGB Rəng Seçimi</p>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:20px;line-height:1.7">
+      16.8 milyon rəng seçimi ilə setup-unuzu fərdiləşdirin. 12 fərqli işıqlandırma rejimi.
+    </p>
+
+    <div class="rgb-swatches" id="swatches">
+      <div class="swatch swatch-red active" data-color="#ff2d55"></div>
+      <div class="swatch swatch-cyan" data-color="#00f0ff"></div>
+      <div class="swatch swatch-gold" data-color="#ffd700"></div>
+      <div class="swatch swatch-purple" data-color="#9933ff"></div>
+      <div class="swatch swatch-white" data-color="#ffffff"></div>
+    </div>
+
+    <div style="margin-top:40px;padding:24px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);">
+      <p class="section-label" style="margin-bottom:10px">Zəmanət & Çatdırılma</p>
+      <p style="font-size:0.82rem;color:var(--muted);line-height:1.8">
+        ✓ 2 İl Rəsmi Zəmanət<br>
+        ✓ Bütün Azərbaycana Pulsuz Çatdırılma<br>
+        ✓ 30 Gün İadə Hüququ<br>
+        ✓ 24/7 Texniki Dəstək
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">OYUNU<br><em>SİZİN</em> QAYDANIZLA<br>OYNAYUN</h2>
+  <p class="cta-sub">Məhdud Stok — Cəmi 500 Ədəd</p>
+  <a href="#" class="cta-big-btn">İndi Sifariş Ver — 179₼</a>
+</section>
+
+<footer>
+  <div class="logo-footer">VORTEX PRO</div>
+  <p>© 2025 VortexGear. Bütün hüquqlar qorunur.</p>
+  <p style="color:var(--accent2);font-size:0.72rem;letter-spacing:0.1em;">AZ · EN · RU</p>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  (function animCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  })();
+
+  const canvas = document.getElementById('particles');
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+  const dots = Array.from({length: 55}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 1.2 + 0.3,
+    vx: (Math.random() - 0.5) * 0.25,
+    vy: (Math.random() - 0.5) * 0.25,
+    a: Math.random()
+  }));
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    dots.forEach(d => {
+      d.x += d.vx; d.y += d.vy;
+      if (d.x < 0) d.x = canvas.width;
+      if (d.x > canvas.width) d.x = 0;
+      if (d.y < 0) d.y = canvas.height;
+      if (d.y > canvas.height) d.y = 0;
+      ctx.beginPath();
+      ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0,240,255,${d.a * 0.35})`;
+      ctx.fill();
+    });
+    for (let i = 0; i < dots.length; i++) {
+      for (let j = i + 1; j < dots.length; j++) {
+        const dx = dots[i].x - dots[j].x, dy = dots[i].y - dots[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 100) {
+          ctx.beginPath();
+          ctx.moveTo(dots[i].x, dots[i].y);
+          ctx.lineTo(dots[j].x, dots[j].y);
+          ctx.strokeStyle = `rgba(0,240,255,${(1 - dist/100) * 0.07})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(drawParticles);
+  }
+  drawParticles();
+
+  function animateCounter(el, target, suffix='') {
+    const start = Date.now();
+    const dur   = 1600;
+    (function tick() {
+      const p = Math.min((Date.now() - start) / dur, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(ease * target).toLocaleString() + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    })();
+  }
+  const statNums = document.querySelectorAll('[data-target]');
+  let counted = false;
+  const countObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      statNums.forEach(el => animateCounter(el, +el.dataset.target));
+    }
+  });
+  countObs.observe(document.querySelector('.stats-row'));
+
+  const featureObs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+      }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.feature-item').forEach(el => featureObs.observe(el));
+
+
+  const specObs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 90);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.spec-item').forEach(el => specObs.observe(el));
+
+  const barObs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      setTimeout(() => { document.getElementById('dpiFill').style.width = '92%'; }, 200);
+      barObs.disconnect();
+    }
+  }, { threshold: 0.5 });
+  barObs.observe(document.getElementById('dpiBar'));
+
+  const swatches = document.querySelectorAll('.swatch');
+  const mouseSvgWrap = document.querySelector('.mouse-svg-wrap');
+  const rgbStripe    = document.querySelector('.rgb-stripe');
+  swatches.forEach(sw => {
+    sw.addEventListener('click', () => {
+      swatches.forEach(s => s.classList.remove('active'));
+      sw.classList.add('active');
+      const c = sw.dataset.color;
+      mouseSvgWrap.style.filter = `drop-shadow(0 0 40px ${c}55) drop-shadow(0 0 80px ${c}33)`;
+    });
+  });
+
+  document.querySelectorAll('.btn, .cta-big-btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = e.clientX - r.left - r.width/2;
+      const y = e.clientY - r.top  - r.height/2;
+      btn.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  const stripe = document.querySelector('.rgb-stripe');
+  let hue = 0;
+  setInterval(() => {
+    hue = (hue + 2) % 360;
+    const c1 = `hsl(${hue}, 100%, 60%)`;
+    const c2 = `hsl(${(hue+120)%360}, 100%, 60%)`;
+    if (stripe) {
+      stripe.setAttribute('stroke', `url(#topGrad)`);
+    }
+  }, 50);
+</script>
+</body>
+</html>

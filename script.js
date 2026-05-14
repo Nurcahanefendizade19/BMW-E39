@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bg: "#A32D2D",
       tag: "#F7C1C1",
       tagText: "#501313",
-      title: "Əsl BMw ruhu",
+      title: "Əsl BMW ruhu",
       desc: "E39 - Sürətç prestij və xarakterin tək bir avtomobildə birləşməsi.",
       icon: "◑",
     },
@@ -277,11 +277,11 @@ document.querySelector(".gallery").addEventListener(
 );
 //SLIDER BITDI//
 
-/*REFRESH NONE */
+
 document.querySelector(".form").addEventListener("submit", function (e) {
   e.preventDefault();
 });
-/*BRAND*/
+
 const devName = document.querySelector(".dev-name");
 const devText = document.querySelector(".dev-text");
 
@@ -307,4 +307,39 @@ const brandObserver = new IntersectionObserver(
 );
 
 brandObserver.observe(document.querySelector(".elaqe"));
-/*dxfbnhm,*/
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const hamburger = document.getElementById("hamburger");
+  const navUl = document.getElementById("nav-ul");
+  
+  if (hamburger && navUl) {
+    hamburger.addEventListener("click", function () {
+      navUl.classList.toggle("active");
+    });
+  }
+});
+
+
+//ADD//
+const gallerySection = document.querySelector('#qaleriya');
+let popupShown = false;
+
+const popupObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !popupShown) {
+      popupShown = true;
+      document.getElementById('game-popup').classList.add('show');
+    }
+  });
+}, { threshold: 0.3 });
+
+popupObserver.observe(gallerySection);
+
+document.getElementById('popup-yes').addEventListener('click', () => {
+  window.location.href = 'add.html';
+});
+
+document.getElementById('popup-no').addEventListener('click', () => {
+  document.getElementById('game-popup').classList.remove('show');
+});
